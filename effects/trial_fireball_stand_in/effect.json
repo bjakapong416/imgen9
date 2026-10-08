@@ -1,0 +1,76 @@
+{
+  "slug": "trial_fireball_stand_in",
+  "name": "Trial fireball (stand-in)",
+  "kind": "projectile",
+  "element": "fire",
+  "description": "stand-in made by code, not AI art",
+  "frames_n": 8,
+  "split": "even",
+  "blend": "add",
+  "frame_ms": 60,
+  "loop": true,
+  "repeat": 1,
+  "scale": 0.35,
+  "anchor": "center",
+  "speed": 8.0,
+  "created": "2026-10-08T12:44:39",
+  "frames": [
+    {
+      "x": 0,
+      "y": 0,
+      "w": 40,
+      "h": 27
+    },
+    {
+      "x": 40,
+      "y": 0,
+      "w": 40,
+      "h": 27
+    },
+    {
+      "x": 80,
+      "y": 0,
+      "w": 40,
+      "h": 27
+    },
+    {
+      "x": 120,
+      "y": 0,
+      "w": 40,
+      "h": 27
+    },
+    {
+      "x": 160,
+      "y": 0,
+      "w": 40,
+      "h": 27
+    },
+    {
+      "x": 200,
+      "y": 0,
+      "w": 40,
+      "h": 27
+    },
+    {
+      "x": 240,
+      "y": 0,
+      "w": 40,
+      "h": 27
+    },
+    {
+      "x": 280,
+      "y": 0,
+      "w": 40,
+      "h": 27
+    }
+  ],
+  "updated": "2026-10-08T12:44:39",
+  "frame_w": 40,
+  "frame_h": 27,
+  "anchor_px": [
+    19.8,
+    13.5
+  ],
+  "ppm": 48.235,
+  "warnings": []
+}

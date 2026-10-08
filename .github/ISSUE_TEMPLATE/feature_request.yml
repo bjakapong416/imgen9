@@ -1,0 +1,19 @@
+name: Feature request
+description: Suggest an idea for ImGen9
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What are you trying to do?
+      description: The game or sprite you're making, and where ImGen9 gets in the way.
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: What would help?
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Anything you tried instead?

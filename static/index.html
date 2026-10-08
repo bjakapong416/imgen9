@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ImGen9</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2 30 16 16 30 2 16z' fill='%234f8cff'/%3E%3Ccircle cx='16' cy='16' r='4' fill='%23ff3b4f'/%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="/static/css/app.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">◆</span>
+      <span>ImGen9</span>
+    </div>
+    <nav class="tabs" id="tabs" role="tablist">
+      <button data-page="pipeline" class="active" role="tab">① Pipeline</button>
+      <button data-page="lab" role="tab">🎮 Playtest</button>
+      <button data-page="docs" role="tab" data-i18n>📖 Guide</button>
+    </nav>
+    <button id="connBtn" class="conn-btn" type="button"><span class="conn-dot"></span><span data-i18n>🔌 Connections</span></button>
+    <select id="langSel" class="lang-select" title="Language / ภาษา" aria-label="Language"></select>
+  </header>
+
+  <!-- 🔌 Connections: AI tools found on this PC (checked locally) + the image AI the user draws with -->
+  <dialog id="connDialog" class="conn-dialog">
+    <div class="conn-top">
+      <h2 data-i18n>🔌 Connections</h2>
+      <span class="hint" data-i18n>What this PC has for the AI steps</span>
+      <button class="btn small" id="connRefresh" type="button" data-i18n>⟳ Check again</button>
+      <button class="btn small" id="connClose" type="button" aria-label="Close">✕</button>
+    </div>
+    <div id="connBody" class="conn-body"></div>
+  </dialog>
+
+  <!-- ═════════════ Pipeline: one image -> game-ready character ═════════════ -->
+  <main class="layout page pipeline" id="page-pipeline" hidden>
+    <aside class="panel">
+      <section class="card">
+        <h2 data-i18n>New character from one image</h2>
+        <label class="field"><span data-i18n>Add to project</span> <select id="pipeGroup"></select></label>
+        <label class="dropzone" id="pipeDrop" tabindex="0">
+          <input type="file" id="pipeFile" accept="image/*" hidden />
+          <div class="dz-icon">⬆</div>
+          <div class="dz-title" data-i18n>Drop a concept image here</div>
+          <div class="dz-sub" data-i18n>One character, full body, plain background</div>
+          <div class="dz-to" id="pipeDropTo"></div>
+        </label>
+        <label class="field"><span data-i18n>Name (optional)</span> <input type="text" id="pipeName" placeholder="e.g. Flame Horn Demon" data-i18n-placeholder="e.g. Flame Horn Demon" /></label>
+        <label class="field"><span data-i18n>Character info</span>
+          <select id="pipeMethod">
+            <option value="heuristic" data-i18n>Fill in yourself (no AI)</option>
+            <option value="claude_code" data-i18n>AI assistant fills it in, in a chat (Claude Code, Gemini CLI or Codex)</option>
+            <option value="claude" data-i18n>Claude API (needs an API key)</option>
+          </select>
+        </label>
+        <p class="hint" id="pipeCaps">–</p>
+      </section>
+      <section class="card grow">
+        <h2 data-i18n>Projects</h2>
+        <ul class="project-list" id="pipeProjects"></ul>
+      </section>
+    </aside>
+
+    <section class="workspace board-wrap">
+      <div class="busy" id="pipeBusy" hidden><div class="spinner"></div><span id="pipeBusyText" data-i18n>Processing…</span></div>
+      <div class="empty-state" id="pipeEmpty">
+        <div class="es-icon">🧬</div>
+        <div data-i18n>Drop 1 character image to start the pipeline</div>
+        <div class="hint" data-i18n>The tool removes the background, classifies the character, plans the animations and guides you step by step</div>
+      </div>
+      <div class="board" id="pipeBoard" hidden></div>
+    </section>
+
+    <aside class="panel">
+      <section class="card grow">
+        <h2><span data-i18n>Steps (top to bottom)</span>
+          <a href="#docs-overview" class="help-link" data-docs="overview" data-i18n>📖 Guide</a></h2>
+        <ol class="steps" id="pipeSteps"></ol>
+      </section>
+    </aside>
+  </main>
+
+  <main class="layout page" id="page-inspector" hidden>
+    <aside class="panel">
+      <section class="card grow">
+        <h2>Sprite files</h2>
+        <input type="text" id="inspSearch" placeholder="Search sprites…" />
+        <p class="hint" id="inspCount">–</p>
+        <ul class="file-list" id="inspList"></ul>
+      </section>
+    </aside>
+
+    <section class="workspace">
+      <div class="toolbar">
+        <button class="btn small primary" id="inspBack" type="button" data-i18n>← Back to Pipeline</button>
+        <div class="seg" id="inspActionSeg" role="radiogroup" aria-label="Action"></div>
+        <div class="toolbar-group">
+          <div class="seg small" id="inspViewSeg">
+            <button data-view="single" class="active" title="One direction">Single</button>
+            <button data-view="all" title="All 8 directions at once">8 Dirs</button>
+          </div>
+          <button class="btn small" id="inspPlay" title="Play / pause (Space)">❚❚</button>
+          <select id="inspSpeed" title="Playback speed">
+            <option value="0.25">0.25×</option>
+            <option value="0.5">0.5×</option>
+            <option value="1" selected>1×</option>
+            <option value="2">2×</option>
+          </select>
+          <button class="btn small" id="inspZoomOut">−</button>
+          <span class="zoom-label" id="inspZoomLabel">200%</span>
+          <button class="btn small" id="inspZoomIn">+</button>
+        </div>
+      </div>
+      <div class="stage-wrap" id="inspStageWrap">
+        <canvas id="inspStage"></canvas>
+        <div class="empty-state" id="inspEmpty">
+          <div class="es-icon">📜</div>
+          <div>Pick a sprite on the left</div>
+          <div class="hint" id="inspRootHint"></div>
+        </div>
+        <div class="overlay-toggles">
+          <label class="check"><input type="checkbox" id="inspShowOrigin" checked /> Origin</label>
+          <label class="check"><input type="checkbox" id="inspShowLayers" /> Layers</label>
+          <label class="check"><input type="checkbox" id="inspShowAnchors" checked /> Anchors</label>
+          <label class="check"><input type="checkbox" id="inspShowGrid" checked /> Grid</label>
+          <label class="check"><input type="checkbox" id="inspLoop" checked /> Loop</label>
+        </div>
+      </div>
+      <div class="timeline" id="inspTimeline"></div>
+    </section>
+
+    <aside class="panel">
+      <section class="card">
+        <h2>Direction</h2>
+        <div class="compass" id="inspCompass"></div>
+        <p class="hint">Letters = which drawing that direction uses; ↔ = drawn flipped (mirror).</p>
+      </section>
+      <section class="card" id="inspDownloads" hidden></section>
+      <section class="card">
+        <h2>This action</h2>
+        <dl class="info" id="inspActionInfo"></dl>
+      </section>
+      <section class="card">
+        <h2>Sprite</h2>
+        <dl class="info" id="inspSpriteInfo"></dl>
+      </section>
+    </aside>
+  </main>
+
+  <!-- ═════════════ Playtest: compare movement & attacks ═════════════ -->
+  <main class="layout page" id="page-lab" hidden>
+    <aside class="panel">
+      <section class="card">
+        <div class="card-head">
+          <h2>Your renders</h2>
+          <button class="btn small" id="labRefresh" title="Rescan renders/">⟳</button>
+        </div>
+        <ul class="file-list short" id="labRenders"></ul>
+        <p class="hint" id="labRendersHint"></p>
+      </section>
+      <section class="card">
+        <h2>Sprite library</h2>
+        <input type="text" id="labSpriteSearch" placeholder="Search sprites…" />
+        <ul class="file-list short" id="labSpriteList"></ul>
+      </section>
+      <section class="card">
+        <h2>In scene</h2>
+        <ul class="actor-list" id="labActors"></ul>
+        <p class="hint">Click a name or a sprite to select it.</p>
+      </section>
+    </aside>
+
+    <section class="workspace">
+      <div class="toolbar">
+        <div class="seg" id="labModeSeg">
+          <button data-mode="playground" class="active" title="Move with WASD / click, attack with Space">🎮 Playground</button>
+          <button data-mode="lineup" title="Everyone side by side, same action and direction">⚖ Lineup</button>
+          <button data-mode="compass" title="The selected character in all 8 directions at once">🧭 8 Dirs</button>
+        </div>
+        <div class="toolbar-group" id="labLineupCtl" hidden>
+          <select id="labRole">
+            <option value="idle">idle</option>
+            <option value="walk" selected>walk</option>
+            <option value="attack">attack</option>
+          </select>
+          <select id="labDir"></select>
+          <button class="btn small" id="labRestart" title="Restart all in sync">⟲ Sync</button>
+        </div>
+        <div class="toolbar-group">
+          <select id="labSpeed" title="Slow motion">
+            <option value="0.1">0.1×</option>
+            <option value="0.25">0.25×</option>
+            <option value="0.5">0.5×</option>
+            <option value="1" selected>1×</option>
+          </select>
+        </div>
+      </div>
+      <div class="stage-wrap" id="labStageWrap">
+        <canvas id="labStage" tabindex="0"></canvas>
+        <div class="empty-state" id="labEmpty">
+          <div class="es-icon">⚔️</div>
+          <div>Add one of your characters or a sprite from the library on the left</div>
+          <div class="hint">WASD / arrows: walk 8 ways · click ground: walk there · Space: attack · Delete: remove · right-drag: pan · wheel: zoom</div>
+        </div>
+        <div class="overlay-toggles">
+          <label class="check"><input type="checkbox" id="labGrid" checked /> Grid</label>
+          <label class="check"><input type="checkbox" id="labRanges" checked /> Ranges</label>
+          <label class="check"><input type="checkbox" id="labTreadmill" checked /> Treadmill</label>
+          <label class="check"><input type="checkbox" id="labLabels" checked /> Labels</label>
+          <label class="check"><input type="checkbox" id="labFollow" checked /> Follow</label>
+        </div>
+      </div>
+      <div class="compare-wrap">
+        <table class="compare" id="labTable"></table>
+      </div>
+    </section>
+
+    <aside class="panel">
+      <section class="card" id="labActorCard" hidden>
+        <div class="card-head">
+          <h2><span class="dot" id="labActorDot"></span><span id="labActorName">–</span></h2>
+          <span class="badge" id="labActorSource"></span>
+        </div>
+        <label class="field" id="labWeaponField" hidden><span data-i18n>Weapon (swap in game)</span> <select id="labWeapon"></select></label>
+        <div class="grid2">
+          <label class="field">Idle <select id="labRoleIdle"></select></label>
+          <label class="field">Walk <select id="labRoleWalk"></select></label>
+          <label class="field">Attack <select id="labRoleAttack"></select></label>
+          <label class="field">Scale (px/m) <input type="number" id="labPpm" min="5" step="1" /></label>
+        </div>
+        <h2 class="sub">Movement</h2>
+        <div class="grid2">
+          <label class="field">Game speed (m/s) <input type="number" id="labMoveSpeed" min="0.1" step="0.1" /></label>
+          <label class="field">Anim stride speed (m/s) <input type="number" id="labNatural" min="0.1" step="0.1" placeholder="unknown" /></label>
+        </div>
+        <label class="check"><input type="checkbox" id="labSync" /> Scale walk animation to game speed</label>
+        <div class="meter"><div class="meter-bar" id="labSlideBar"></div></div>
+        <p class="hint" id="labSlideText">–</p>
+        <button class="btn small" id="labUseNatural">Set game speed = stride speed</button>
+        <h2 class="sub">Attack</h2>
+        <div class="grid2">
+          <label class="field">Hit frame <input type="number" id="labHitFrame" min="0" step="1" placeholder="auto" /></label>
+          <label class="field">Range (m) <input type="number" id="labRange" min="0.1" step="0.1" /></label>
+        </div>
+        <p class="hint" id="labHitText">–</p>
+        <div class="btn-row">
+          <button class="btn small" id="labSave" title="Save to renders/&lt;name&gt;/lab_config.json">💾 Save</button>
+          <button class="btn small" id="labExport" title="Download engine data">⬇ Export JSON</button>
+          <button class="btn small" id="labRemove">Remove</button>
+        </div>
+      </section>
+      <section class="card grow">
+        <h2>How to compare</h2>
+        <div class="lessons">
+          <h3>Walk / movement</h3>
+          <p><b>Lineup + walk</b>: the ground under each character scrolls at its game speed. If the feet slide against the lines, the game speed and the animation's stride don't match. The <b>slide</b> column shows by how much.</p>
+          <p>Characters rendered with Blender store the real stride speed (root motion). For 2D sprites, enter it by hand.</p>
+          <h3>Attack</h3>
+          <p><b>Lineup + attack</b> replays everyone in sync. <b>● HIT</b> marks the damage frame. Compare <b>hit ms</b> in the table: windup = hit ms, recovery = duration − hit.</p>
+          <p>In <b>Playground</b>, Space attacks the nearest dummy. The dummy flashes at the hit frame if it's within range and in front of you.</p>
+          <h3>Scale</h3>
+          <p>Every character is drawn at metres × px/m, so their sizes are comparable. Render every character with the same <code>--ppm</code>.</p>
+        </div>
+      </section>
+    </aside>
+  </main>
+
+
+  <div class="toast" id="toast" hidden></div>
+
+  <!-- ═════════════ Docs: the user guide ═════════════ -->
+  <main class="page docs-page" id="page-docs" hidden>
+    <nav class="docs-toc"><h2 data-i18n>Contents</h2><div id="docsToc"></div></nav>
+    <article class="docs-body" id="docsBody"></article>
+  </main>
+
+  <script type="module" src="/static/js/connections.js"></script>
+<script type="module" src="/static/js/docs/docs.js"></script>
+  <script type="module" src="/static/js/lab/labPage.js"></script>
+  <script type="module" src="/static/js/pipeline/pipeline.js"></script>
+  <script type="module" src="/static/js/inspector/inspector.js"></script>
+  </body>
+</html>

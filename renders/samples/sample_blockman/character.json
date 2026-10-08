@@ -1,0 +1,86 @@
+{
+  "format": "character/1",
+  "name": "sample_blockman",
+  "layout": "rows=directions, columns=frames",
+  "frame_width": 192,
+  "frame_height": 192,
+  "pivot": {
+    "x": 96.0,
+    "y": 159
+  },
+  "pixels_per_meter": 70.0,
+  "camera": {
+    "projection": "orthographic",
+    "elevation_deg": 30
+  },
+  "directions": [
+    "S",
+    "SW",
+    "W",
+    "NW",
+    "N",
+    "NE",
+    "E",
+    "SE"
+  ],
+  "mirrored_directions": {
+    "NE": "NW",
+    "E": "W",
+    "SE": "SW"
+  },
+  "animations": {
+    "attack": {
+      "sheet": "sheets/attack.png",
+      "frames": 15,
+      "fps": 15.0,
+      "delay_ms": 66.667,
+      "loop": false,
+      "root_motion": null,
+      "events": {},
+      "bounds": [
+        -57.0,
+        -136,
+        57.0,
+        10
+      ]
+    },
+    "idle": {
+      "sheet": "sheets/idle.png",
+      "frames": 20,
+      "fps": 15.0,
+      "delay_ms": 66.667,
+      "loop": true,
+      "root_motion": null,
+      "events": {},
+      "bounds": [
+        -44.0,
+        -118,
+        44.0,
+        11
+      ]
+    },
+    "walk": {
+      "sheet": "sheets/walk.png",
+      "frames": 20,
+      "fps": 15.0,
+      "delay_ms": 66.667,
+      "loop": true,
+      "root_motion": {
+        "distance_m": 1.6,
+        "duration_s": 1.3333,
+        "speed_m_s": 1.2
+      },
+      "events": {
+        "9": "step_l",
+        "19": "step_l"
+      },
+      "bounds": [
+        -52.0,
+        -120,
+        52.0,
+        11
+      ]
+    }
+  },
+  "warnings": []
+}

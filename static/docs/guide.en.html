@@ -1,0 +1,295 @@
+<section id="overview">
+  <h2>What ImGen9 does</h2>
+  <p>ImGen9 turns <b>one character image</b> into a game-ready <b>2D sprite in 8 directions</b>:
+    idle, walk, attack, hurt and die. You get a texture atlas + JSON for web games (PixiJS / Phaser),
+    frame images, GIFs, and <code>.spr</code>/<code>.act</code> files.</p>
+  <p>ImGen9 <b>does not draw</b>. Your own image AI (Gemini, ChatGPT, …) draws, from prompts ImGen9
+    writes for you. ImGen9 does the tedious parts around it: background removal, cutting frames,
+    checking them, lining up the feet, making 8 directions out of 2 drawings, and packing.</p>
+  <div class="doc-flow">
+    <span>① Upload</span><span>② Describe</span><span>③ Reference views <small>(optional)</small></span>
+    <span>④ AI drawings</span><span>⑤ Download</span>
+  </div>
+  <p>The steps are listed in the right panel of the <b>Pipeline</b> tab. The step marked as next is
+    open; finished steps show ✓. The bar at the top of the page names the <b>next step</b> (press
+    <b>Go there ↓</b>), and every card has a badge: <b>Required</b> · <b>Optional</b> (skip it, e.g. reference
+    views, weapon, headgear, colour variants) · <b>Automatic</b> · <b>✓ Done</b>.</p>
+</section>
+
+<section id="start">
+  <h2>Before you start</h2>
+  <ul>
+    <li><b>An image AI account</b> that can take attached images: Google Gemini or ChatGPT both work.</li>
+    <li><b>A character image</b> you made yourself or have the rights to: one character, full body,
+      plain background. A turnaround sheet (front / 3/4 / side / back side by side) works even better.</li>
+    <li>The very first background removal downloads a model (~180 MB) once, so the first upload takes
+      a minute. After that it takes a few seconds.</li>
+  </ul>
+  <p class="doc-tip">💡 No character yet? Ask your image AI for a turnaround sheet first. A good request:
+    “Character design turnaround sheet for a 2D isometric RPG: [who, hair, outfit, colours, weapon].
+    Four full-body views side by side (front, front three-quarter facing bottom-left, side facing left,
+    back), relaxed standing pose, plain white background, no shadows, no text.”</p>
+</section>
+
+<section id="connections">
+  <h2>🔌 Connections</h2>
+  <p>The <b>🔌 Connections</b> button in the top bar (it opens by itself the first time) shows what is
+    <b>Required</b> and what is <b>Not required</b>, checked on your PC only:</p>
+  <ul>
+    <li><b>Required:</b> an image AI on the web (Gemini or ChatGPT) to draw the poses. Pick yours; every prompt is written for it.</li>
+    <li><b>Not required:</b> an AI assistant in a chat — Claude Code, Gemini CLI or Codex, whichever is installed — to fill in
+      the character info and review drawings; API keys (shown only as set / not set); Blender for the 3D route.</li>
+  </ul>
+  <p>Without the optional ones the tool still works: you type the character description yourself. ImGen9 never looks at
+    your browser or your sign-ins.</p>
+</section>
+
+<section id="projects">
+  <h2>Projects and characters</h2>
+  <p>A <b>project</b> is the characters of one game (or one theme), e.g. “My RPG”. Every character is in a project;
+    until you make one, characters go into <b>My characters</b>.</p>
+  <ul>
+    <li><b>New project:</b> in <b>Add to project</b> at the top left, pick <b>＋ New project…</b> and name it.</li>
+    <li><b>New character:</b> pick the project, then drop an image in the box below it; the box says which project the new
+      character goes into. Or press <b>＋</b> on a project in the list.</li>
+    <li><b>Project page</b> (click a project's name in the list): settings every character shares — the <b>Art style</b>
+      (an English sentence added to every prompt), <b>Character style</b>, <b>Sprite detail</b> and a <b>Style reference image</b>
+      (download it and attach it to the AI with the prompt). A character can still set its own. Plus
+      <b>Download the whole project (zip)</b> and <b>Add every character to Playtest</b> to check that sizes and styles match.</li>
+    <li><b>Move a character</b> to another project: <b>📁 Project:</b> in its Character info card.</li>
+    <li><b>Replace the concept image</b> of a character (say, a new picture with a plainer background):
+      <b>🔄 Replace the concept image</b> in its Character info card. The drawn poses stay; tick <b>and guess the info again</b>
+      to have type and colours guessed from the new image.</li>
+    <li>On disk a character lives in <code>projects/&lt;project&gt;/&lt;character&gt;/</code> and its sprite in
+      <code>renders/&lt;project&gt;/&lt;character&gt;/</code>, so copying a project folder copies the whole set.</li>
+  </ul>
+</section>
+
+<section id="step1">
+  <h2>① Upload a character</h2>
+  <ol>
+    <li>In the <b>Pipeline</b> tab, drop the image on <b>Drop a concept image here</b> (left panel).
+      Optionally type a name first.</li>
+    <li>Choose how to fill in character info. <b>Fill in yourself (no AI)</b> is the default and needs
+      nothing else.</li>
+    <li>ImGen9 removes the background. A turnaround sheet is split into views automatically.</li>
+  </ol>
+  <p>Each upload creates a <b>character</b> in the project chosen under <b>Add to project</b> (the box says which).
+    Click a character in the list to open it. To add more views to the <i>same</i> character, use the drop zone in
+    step ① of the right panel — the big box on the left always starts a new character.</p>
+</section>
+
+<section id="step2">
+  <h2>② Character info and description</h2>
+  <p>Open the <b>Character info</b> card. The most important field is <b>Description (English)</b>:
+    every drawing prompt starts with it, so the AI draws the same character every time.</p>
+  <ul>
+    <li>Describe hair, face, outfit pieces and their colours, shoes. Be specific.
+      <br><i>Example:</i> “a young swordswoman with long red hair in a braid, silver plate armour with
+      gold trim, a red cape, brown leather boots”.</li>
+    <li><b>Leave out the weapon</b> (it has its own field in the Weapons card) and <b>body
+      proportions</b> (chosen with <b>Character style</b>).</li>
+    <li><b>Character style</b>: <i>slender</i> (about 5 heads tall, the default for people), <i>chibi</i>
+      (about 2.5 heads), or <i>follow the reference image</i>.</li>
+    <li><b>Body type</b> (two legs, four legs, …) matters for the optional 3D route only.</li>
+  </ul>
+  <p>Press <b>✓ Confirm info</b> in step ② when it looks right. If you chose an AI assistant (or the Claude API), the fields are filled
+    in for you; you can still edit them, or press <b>✍ Fill in by hand instead</b> instead of waiting.</p>
+</section>
+
+<section id="step3">
+  <h2>③ Reference views (optional)</h2>
+  <p>One front image is enough to continue. A <b>back view</b> helps the AI draw the back 3/4 rows
+    correctly (hair, cape, back of the outfit).</p>
+  <p>If views are missing, the <b>Character views (turnaround)</b> card shows a ready prompt: copy it, attach your front
+    image in your image AI, and drop the result in step ① of the right panel. Views can be swapped or
+    flipped with the controls under each picture.</p>
+</section>
+
+<section id="weapons">
+  <h2>Weapons</h2>
+  <p>Choose the weapon <b>before</b> copying drawing prompts: the <b>weapon type</b> decides which
+    attack the prompts and the pose guide ask for.</p>
+  <ul>
+    <li><b>Weapon types</b>: staff, dagger, sword, spear, bow, gun, axe, mace. Types with the same attack
+      style (swing / thrust / bow / gun) can be swapped freely; a different style needs a new attack
+      drawing. A bow sits in the left hand.</li>
+    <li><b>Held weapon</b>: describe the weapon in English. It is added to the prompts as
+      “holding …”.</li>
+    <li><b>Weapon as a separate layer</b> (for games that swap weapons): the poses are drawn with empty,
+      gripping hands and the weapon is laid over each frame at the hand. By default it shows only in
+      attacks. Add weapon pictures with <b>＋ Drop a weapon image</b> (drawn upright, handle down),
+      <b>📋 Weapon prompt</b> to have the AI draw one, or <b>🧪 Try a sample weapon</b>.</li>
+    <li><b>Weapon grip</b> editor: pick an action and view, click a frame, drag to move the hand, use the
+      mouse wheel or slider to rotate, tick <i>Behind the body</i> where needed, then <b>💾 Save grip</b>.
+      Edit only the 2 drawn views; the other 6 directions follow by flipping.</li>
+  </ul>
+</section>
+
+<section id="headgear">
+  <h2>Headgear and mounted versions</h2>
+  <ul>
+    <li><b>🎩 Headgear</b>: drop a picture of a hat or helmet (or copy <b>📋 Prompt to draw the headgear</b>
+      for your image AI). It is laid on the head of every frame — found from the drawing, so it follows
+      bobbing and leaning — and hidden while lying down. Pick which one is worn, adjust size and position
+      with the sliders. Game downloads also get it alone as <code>&lt;name&gt;_hat</code>, next to
+      <code>&lt;name&gt;_body</code>, so a game can swap headgear.</li>
+    <li><b>🐎 Mounted version</b> (in the character card): describe the mount in English and press
+      <b>Create</b>. You get a new character in the same project, with the same references, described
+      as riding it; draw its actions like any character.</li>
+  </ul>
+</section>
+
+<section id="step4">
+  <h2>④ AI drawings (the main step)</h2>
+  <p>In the <b>Poses (AI-drawn)</b> card:</p>
+  <ol>
+    <li>Pick your AI (<b>Gemini</b>, <b>ChatGPT</b> or other) and press <b>📋 All actions (one prompt)</b>.
+      The prompt is copied. Tick <b>Has a magic attack</b> first if the character casts spells, and any
+      <b>Extra actions</b> it needs — run, sit, sleep, happy (2 more rows each). <b>Side view (W/E)</b> adds
+      a profile row per action: walking left/right then looks like a true side view instead of the front
+      3/4 drawing (one more row per action to draw).</li>
+    <li>Press <b>🦴 Pose guide</b> to download the stick-figure sheet for that prompt.</li>
+    <li>In your image AI, attach <b>2 images</b> — your character (turnaround or the front image) and
+      the pose guide — then paste the prompt. Or attach just <b>🧩 1 image (character + poses)</b>, which
+      puts both on one board.</li>
+    <li>Save the image the AI returns and drop it on <b>⬇ Drop the AI-drawn image here</b>, right under the
+      prompt buttons.</li>
+  </ol>
+  <p>ImGen9 cuts the grid into every action and view, checks each row, lines up the feet, makes the 8
+    directions and builds the sprite on its own. Results appear in the same card and below.</p>
+  <h3>Reading the checks</h3>
+  <ul>
+    <li><b>✓ n frames</b> — the row is fine.</li>
+    <li><b>⚠ Got n frames (asked for 6)</b> — the AI drew too many or too few frames (one more or less is fine).</li>
+    <li><b>⚠ Body size wobbles n %</b> — the character changes height between frames by 12 % or more.</li>
+    <li><b>⚠ Legs barely alternate</b> (walk) — the AI repeated one stepping pose.</li>
+  </ul>
+  <p><b>To fix a row</b>, press <b>📋 Both views</b> next to that action (or <b>📋 prompt</b> in one
+    cell) with its <b>🦴</b>, have the AI redraw just that, and drop the result in the same drop zone —
+    it replaces only that action.</p>
+  <h3>Fixing without redrawing</h3>
+  <ul>
+    <li><b>✎ Edit frames</b> (on a drawn cell): move frames earlier/later, delete, duplicate, flip one frame,
+      nudge it a few pixels, or make it a <b>pause</b> (⏸ ×2–×4 — shows the frame longer, e.g. at the
+      moment of the hit). You can also drop a single image to add or replace one frame. The preview plays
+      the result; <b>💾 Save frames</b> rebuilds the sprite, <b>↺ Reset to the drawing</b> undoes all edits.
+      Frames the check found odd have a red outline.</li>
+    <li><b>↶</b> brings back the previous drawing of a row after you dropped a new one (the last 5 are kept).</li>
+    <li><b>🎨 Lock colours to the reference</b> (on by default) pulls every row's colours back to your
+      character image, so rows drawn at different times don't flicker.</li>
+    <li><b>Sprite detail</b>: Classic (~80 px tall) / HD x2 / HD x3. Detailed, painted art (armour, ornaments)
+      needs HD x2 or more, or it blurs. Set <b>Height (m)</b> in the character info card, e.g. 2–3 m for an orc or a giant.
+      The sprite rebuilds on its own after a change.</li>
+    <li>The check also flags <b>frames that look different</b> from the rest of their row: other colours
+      (wrong view or outfit) or a part that appears/disappears (e.g. the weapon in idle/walk).</li>
+  </ul>
+  <p><b>🎨 Ask your AI assistant for an art review</b> copies a request to paste into the chat of your AI assistant
+    (Claude Code, Gemini CLI or Codex): it looks at every
+    drawn row (facing, motion, anatomy, likeness, AI artefacts) and writes a verdict and what to fix per row;
+    it shows as a 🎨 badge on each cell.</p>
+  <p class="doc-tip">💡 AIs follow a pose they can <i>see</i> much better than one described in words:
+    always attach the pose guide. Blue limbs are the character's left, red its right; a grey head means
+    the back of the head.</p>
+</section>
+
+<section id="step5">
+  <h2>⑤ Results and download</h2>
+  <p>The <b>Result + downloads</b> card shows the sprite in 8 directions and offers:</p>
+  <ul>
+    <li><b>▶ Try walk/attack in Playtest</b></li>
+    <li><b>⬇ For web games (PixiJS / Phaser)</b>: a zip with the texture atlas (<code>.png</code> / <code>.webp</code>), a
+      TexturePacker-style <code>.json</code> (PixiJS <code>Assets.load</code>, Phaser
+      <code>load.atlas</code>; the pivot is at the feet), <code>.anim.json</code> with frame times, loops
+      and events (<code>atk</code> = apply damage, <code>step</code> = footstep), and a
+      <code>demo.html</code> that plays all 8 directions. It also holds the Godot and Aseprite files below.</li>
+    <li><b>⬇ Godot 4</b>: the atlas <code>.png</code> plus a <code>SpriteFrames</code> <code>.tres</code>
+      with one animation per action and direction (e.g. <code>walk_S</code>), speed and looping already
+      set. Copy the folder into the root of your Godot project under its own name and use it in an
+      <code>AnimatedSprite2D</code>; the README gives the <code>offset</code> that puts the feet on the node.</li>
+    <li><b>⬇ Aseprite JSON</b>: the atlas <code>.png</code> plus the sprite-sheet JSON Aseprite itself
+      exports (<code>frames</code> array, a <code>frameTags</code> entry per action and direction,
+      per-frame durations). Phaser (<code>load.aseprite</code>) and Unity / Godot Aseprite importers read it.</li>
+    <li><b>▶ Web demo (PixiJS)</b>: opens the <code>demo.html</code> from that download in a new tab,
+      straight from ImGen9 — all 8 directions with a button per action. Needs an internet connection
+      (PixiJS loads from a CDN). The downloaded <code>demo.html</code> can't be opened by double-clicking
+      (browsers block local files): serve its folder, e.g. <code>python -m http.server 8080</code>, then
+      open <code>http://localhost:8080/demo.html</code>.</li>
+    <li><b>⬇ All images (zip)</b>: every frame as PNG.</li>
+    <li>Game downloads also include <code>game.json</code>: the <b>hitbox</b>, the ground <b>shadow</b> size and,
+      per direction, the <b>cast point</b> where an attack or spell leaves the hand at the hit frame — handy for
+      collisions and for spawning projectiles.</li>
+    <li><b>🔍 Frame by frame / GIF</b>: opens this character frame by frame, for single frames, strips, GIFs and the
+      <code>.spr</code>/<code>.act</code> files.</li>
+  </ul>
+</section>
+
+<section id="variants">
+  <h2>Colour variants</h2>
+  <p>The <b>🎨 Colour variants</b> card makes the same sprite in other colours without redrawing — a
+    common way to get more monsters or team colours. Click one of the sprite's colours to change only
+    that group (or <b>All colours</b>), turn its hue, adjust saturation and brightness, watch the preview,
+    name it and press <b>＋ Add variant</b>. Each variant is its own sprite with the same animations:
+    play it with <b>▶ Demo</b>, download it, or find it in Playtest and the frame-by-frame view as
+    “character (v1)”. Outlines and greys are never recoloured.</p>
+</section>
+
+<section id="motionlab">
+  <h2>Playtest</h2>
+  <p>Test characters the way a game would. Add one from <b>Your renders</b> on the left.</p>
+  <ul>
+    <li><b>Playground</b>: walk with <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> / arrow keys or click
+      the ground; <kbd>Space</kbd> attacks the nearest training dummy; right-drag pans, wheel zooms.</li>
+    <li><b>Lineup</b>: everyone side by side doing the same action, to compare timing.</li>
+    <li><b>8 Dirs</b>: the selected character in all 8 directions at once.</li>
+    <li><b>Treadmill</b>: if the feet slide against the moving ground, adjust <b>Game speed</b>.
+      Slow motion (0.25×) shows each frame.</li>
+    <li><b>💾 Save</b> stores speed, hit frame and range with the character; they are included in exports.</li>
+    <li>Characters with weapon layers have a weapon picker to swap weapons live.</li>
+  </ul>
+</section>
+
+<section id="frames">
+  <h2>Frame by frame (Sprite Inspector)</h2>
+  <p>Opened with <b>🔍 Frame by frame / GIF</b> in a character's result card: play any action in any direction
+    frame by frame, see frame times, damage events, layers and anchors, and download frames, strips or GIFs.
+    The list on the left shows that character with its weapon layers and colour variants. Press
+    <b>← Back to Pipeline</b> to return. It shows only sprites made with ImGen9.</p>
+</section>
+
+
+<section id="trouble">
+  <h2>Troubleshooting</h2>
+  <dl>
+    <dt>The first upload seems stuck</dt>
+    <dd>It is downloading the background-removal model (~180 MB) once. Wait a minute.</dd>
+    <dt>“Expected 10 rows…” or rows mixed up</dt>
+    <dd>The AI didn't draw the grid as asked (front and back mixed in one row, figures overlapping).
+      Redraw; attaching the pose guide helps a lot. 7 columns instead of 6 is fine.</dd>
+    <dt>The legs don't alternate when walking</dt>
+    <dd>Redraw the walk only (📋 Both views + 🦴 on the walk row). The pose guide shows each leg position.</dd>
+    <dt>The weapon disappears in some frames, or there are two weapons</dt>
+    <dd>Without a weapon layer, make sure the weapon is described in the Weapons card. With a weapon
+      layer on, poses drawn earlier still contain the weapon: redraw them empty-handed.</dd>
+    <dt>Thin parts (staff, hair strands) are cut off</dt>
+    <dd>Start with <code>REMBG_MODEL=isnet-anime</code> for stylised art, and keep
+      <code>REMBG_POST_PROCESS</code> off.</dd>
+    <dt>The character looks chibi but you wanted slender</dt>
+    <dd>Check <b>Character style</b>. A reference image with a big head pulls the AI toward chibi: redraw the
+      turnaround in slender proportions first and use that as the reference.</dd>
+    <dt>Something looks outdated after an update</dt>
+    <dd>Reload the page with <kbd>Ctrl</kbd>+<kbd>F5</kbd>.</dd>
+  </dl>
+</section>
+
+<section id="rights">
+  <h2>Your images and rights</h2>
+  <ul>
+    <li>Use images you made or have the rights to. Don't use screenshots of other people's art.</li>
+    <li>You own what you put in and what you get out. Images made with an AI are also subject to that
+      service's terms; check them before selling assets, and disclose AI use where a store asks.</li>
+    <li>ImGen9's prompts describe a look in plain words and never name other games or artists.</li>
+    <li>ImGen9 is open source (AGPL-3.0) and not affiliated with any game publisher; the
+      <code>.spr</code>/<code>.act</code> support is for compatibility only.</li>
+  </ul>
+</section>

@@ -1,0 +1,21 @@
+.venv/
+__pycache__/
+*.pyc
+tmp_uploads/
+.cache/
+.env
+*.log
+renders/*/frames/
+
+# Your work stays on your machine: projects and built sprites are never committed.
+projects/*
+!projects/.gitkeep
+renders/*
+!renders/.gitkeep
+!renders/samples/
+
+# Personal notes for Claude Code (language, local paths, private workflow).
+CLAUDE.local.md
+
+# Claude Code helper worktrees
+.claude/worktrees/

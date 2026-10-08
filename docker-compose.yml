@@ -1,0 +1,20 @@
+services:
+  imgen9:
+    build: .
+    image: imgen9
+    ports:
+      - "8000:8000"
+    environment:
+      REMBG_MODEL: isnet-general-use   # or u2net / isnet-anime / u2netp
+      MAX_UPLOAD_MB: "25"
+      PRELOAD_MODEL: "true"            # load the model at startup instead of on first upload
+      RENDERS_DIR: /app/renders
+      PROJECTS_DIR: /app/projects
+    volumes:
+      - rembg-models:/models           # keeps the downloaded model between restarts
+      - ./projects:/app/projects       # your characters (kept outside the container)
+      - ./renders:/app/renders         # built sprites
+    restart: unless-stopped
+
+volumes:
+  rembg-models:

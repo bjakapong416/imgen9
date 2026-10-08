@@ -1,0 +1,2 @@
+# Optional: classify a character image with Claude (needs your own ANTHROPIC_API_KEY; each call is billed).
+anthropic>=1.11

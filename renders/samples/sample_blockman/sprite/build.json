@@ -1,0 +1,45 @@
+{
+  "files": [
+    "sprite/sample_blockman.spr",
+    "sprite/sample_blockman.act"
+  ],
+  "actions": 24,
+  "types": 3,
+  "images": 296,
+  "frames": 352,
+  "palette_colors": 255,
+  "height_px": 81,
+  "scale": 0.6891,
+  "bytes": {
+    "spr": 587678,
+    "act": 31268
+  },
+  "action_map": [
+    {
+      "action": "idle",
+      "slot": "idle",
+      "frames": "20->13",
+      "delay_ms": 102.6,
+      "events": {}
+    },
+    {
+      "action": "walk",
+      "slot": "walk",
+      "frames": "20->18",
+      "delay_ms": 74.1,
+      "events": {
+        "8": "step",
+        "17": "step"
+      }
+    },
+    {
+      "action": "attack",
+      "slot": "attack",
+      "frames": "15->13",
+      "delay_ms": 76.9,
+      "events": {
+        "7": "atk"
+      }
+    }
+  ]
+}

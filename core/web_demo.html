@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>__NAME__ demo</title>
+<style>
+  body { margin: 0; background: #1b1f27; color: #ddd; font: 13px system-ui; }
+  #ui { position: fixed; top: 8px; left: 8px; display: flex; gap: 6px; flex-wrap: wrap; }
+  button { background: #2b3446; color: #ddd; border: 1px solid #3b4458; border-radius: 5px; padding: 4px 8px; cursor: pointer; }
+  button.on { background: #4f8cff; }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/pixi.js@8/dist/pixi.min.js"></script></head>
+<body><div id="ui"></div><script>
+(async () => {
+  const app = new PIXI.Application();
+  await app.init({ resizeTo: window, background: "#1b1f27", antialias: false });
+  document.body.appendChild(app.canvas);
+  const sheet = await PIXI.Assets.load("__ATLAS__");
+  const meta = await (await fetch("__NAME__.anim.json")).json();
+  const dirs = meta.directions;
+  let action = "walk" in meta.actions ? "walk" : Object.keys(meta.actions)[0];
+  sheet.textureSource.scaleMode = "nearest";
+
+  // One sprite per direction, arranged in a ring like the Sprite Inspector "8 Dirs" view.
+  const sprites = dirs.map((d) => {
+    const s = new PIXI.AnimatedSprite(sheet.animations[action + "_" + d]);
+    s.updateAnchor = true;          // use each frame's anchor = the feet
+    s.scale.set(2);
+    app.stage.addChild(s);
+    return s;
+  });
+
+  function layout() {
+    const cx = app.screen.width / 2, cy = app.screen.height / 2 + 40, r = Math.min(cx, cy) * 0.6;
+    sprites.forEach((s, i) => {
+      const a = i * Math.PI / 4;    // S at the bottom, then clockwise (.act order)
+      s.x = cx - Math.sin(a) * r;
+      s.y = cy + Math.cos(a) * r * 0.5;
+    });
+    sprites.slice().sort((a, b) => a.y - b.y).forEach((s, i) => app.stage.setChildIndex(s, i)); // Y-sort
+  }
+
+  function play(name) {
+    action = name;
+    const m = meta.actions[name];
+    sprites.forEach((s, i) => {
+      s.textures = sheet.animations[name + "_" + dirs[i]];
+      s.animationSpeed = 1000 / m.frame_ms / 60;   // frames per tick at 60 fps
+      s.loop = m.loop;
+      s.onFrameChange = (f) => { if (m.events[f] === "atk" && i === 0) console.log("hit!", name, f); };
+      s.gotoAndPlay(0);
+    });
+    document.querySelectorAll("#ui button").forEach((b) => b.classList.toggle("on", b.textContent === name));
+  }
+
+  for (const name of Object.keys(meta.actions)) {
+    const b = document.createElement("button");
+    b.textContent = name;
+    b.onclick = () => play(name);
+    document.getElementById("ui").appendChild(b);
+  }
+  layout();
+  play(action);
+  window.addEventListener("resize", layout);
+  window.demoReady = { frames: Object.keys(sheet.textures).length, animations: Object.keys(sheet.animations).length };
+})();
+</script></body></html>
