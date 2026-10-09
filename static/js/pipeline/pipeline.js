@@ -334,9 +334,9 @@ function renderBoard() {
       const s = role.step ? stepOf(role.step) : null;
       if (role.kind === "req") {
         badge = s?.done ? `<span class="role done">✓ ${t("Done")}</span>`
-          : `<span class="role req">${s ? t("Required · step {n}", { n: s.n }) : t("Required")}</span>`;
+          : `<span class="role req">${t("Required")}</span>`;
       } else if (role.kind === "opt") {
-        badge = `<span class="role opt">${s ? t("Optional · step {n}", { n: s.n }) : t("Optional")}</span>`;
+        badge = `<span class="role opt">${t("Optional")}</span>`;
       } else {
         badge = `<span class="role auto">${t("Automatic")}</span>`;
       }
@@ -345,7 +345,9 @@ function renderBoard() {
     const fold = is2d && role?.kind === "opt";
     const key = `${p.slug}|${title}`;
     if (fold && !(foldOpen.get(key) ?? role.open)) el.classList.add("folded");
-    el.innerHTML = `<h3>${badge}${title}${sub ? ` <small>${sub}</small>` : ""}${fold
+    const sn = is2d && role?.step ? stepOf(role.step) : null;
+    const num = sn ? `<span class="step-no ${sn.done ? "done" : ""} ${sn.next ? "next" : ""}" title="${esc(t("Step {n}", { n: sn.n }))}">${sn.n}</span>` : "";
+    el.innerHTML = `<h3>${num}${badge}${title}${sub ? ` <small>${sub}</small>` : ""}${fold
       ? `<button class="fold-btn" type="button">${el.classList.contains("folded") ? t("▸ Show") : t("▾ Hide")}</button>` : ""}</h3>`;
     if (fold) {
       const h = el.querySelector("h3");
@@ -698,7 +700,7 @@ function renderViews(card, p) {
     <div class="views-row four">
       ${VIEWS.map((v) => `
         <div class="view-slot ${views[v] ? "" : "empty"} ${REQUIRED_VIEWS.includes(v) ? "req" : ""}">
-          ${views[v] ? `<img src="${esc(views[v])}" alt="" />` : `<div class="view-drop">${t("No view yet")}<br><b>${VIEW_LABEL[v]}</b>${REQUIRED_VIEWS.includes(v) ? "" : `<br><small>${t("(optional)")}</small>`}</div>`}
+          ${views[v] ? `<img src="${esc(views[v])}" alt="" />` : `<label class="view-drop" data-view-drop="${v}"><input type="file" accept="image/*" hidden />${t("No view yet")}<br><b>${VIEW_LABEL[v]}</b>${REQUIRED_VIEWS.includes(v) ? "" : `<br><small>${t("(optional)")}</small>`}<br><small class="drop-here">⬇ ${t("drop or click")}</small></label>`}
           <div class="view-bar">
             <b>${VIEW_LABEL[v]}</b>
             ${views[v] ? `<select data-swap="${v}" title="${t("Wrong view? Swap it")}"><option value="">${t("Swap with…")}</option>${VIEWS.filter((o) => o !== v).map((o) => `<option value="${o}">${VIEW_LABEL[o]}</option>`).join("")}</select>
@@ -707,8 +709,19 @@ function renderViews(card, p) {
           </div>
         </div>`).join("")}
     </div>
+    <label class="dropmini views-drop" data-views-drop><input type="file" accept="image/*" multiple hidden />
+      ⬇ ${t("Drop a back or side view, or a turnaround sheet, here: the tool sorts it into views")}</label>
     ${missing.length ? `<div class="prompt-box" data-prompt-box></div>` : ""}`);
   if (missing.length) renderPromptBox(el.querySelector("[data-prompt-box]"), p);
+  const bindDrop = (zone, view) => {
+    const take = (files) => handleFiles([...files], view, { allowModels: false });
+    zone.querySelector("input").addEventListener("change", (e) => take(e.target.files));
+    zone.addEventListener("dragover", (e) => { e.preventDefault(); zone.classList.add("drag"); });
+    zone.addEventListener("dragleave", () => zone.classList.remove("drag"));
+    zone.addEventListener("drop", (e) => { e.preventDefault(); e.stopPropagation(); zone.classList.remove("drag"); take(e.dataTransfer.files); });
+  };
+  bindDrop(el.querySelector("[data-views-drop]"), null);
+  el.querySelectorAll("[data-view-drop]").forEach((z) => bindDrop(z, z.dataset.viewDrop));
 
   el.querySelectorAll("[data-swap]").forEach((sel) => sel.addEventListener("change", async () => {
     if (!sel.value) return;
@@ -1183,8 +1196,7 @@ function stepBody(s) {
 
   switch (s.id) {
     case "upload":
-      return `<p>${t("Drop a character image: a single image or a turnaround sheet (several views in one image). The tool removes the background, splits the views and passes them on. Drop more when you get the missing views")}</p>
-        ${dropMini(t("Drop an image / turnaround sheet here"), "images")}
+      return `<p>${t("Done: the character image is in. New characters start in the box on the left; to use another image for this one, press 🔄 Replace the concept image in the Character info card")}</p>
         <p><a href="${esc(p.images.cutout)}" download="${esc(p.slug)}_front.png">${t("⬇ Download the front view (background removed)")}</a></p>`;
     case "classify":
       return p.ai_pending
@@ -1215,8 +1227,10 @@ function stepBody(s) {
       return missing.length
         ? `<p>${t("Missing views: <b>{views}</b>", { views: missing.map((v) => VIEW_LABEL[v]).join(", ") })}</p>
           <ol><li>${t("Copy the prompt in the <b>Character views</b> card into an image AI (attach the front image as reference)")}</li>
-          <li>${t("Drop the result at <b>step 1</b>; the tool sorts it into views")}</li></ol>`
-        : `<p>${t("All views present. Use these images with multi-view Image-to-3D if the service supports it")}</p>`;
+          <li>${t("Drop the result here (or in the Character views card); the tool sorts it into views")}</li></ol>
+          ${dropMini(t("⬇ Drop a back / side view or a turnaround sheet here"), "images")}`
+        : `<p>${t("All views present. Use these images with multi-view Image-to-3D if the service supports it")}</p>
+          ${dropMini(t("⬇ Drop a better view here to replace one"), "images")}`;
     }
     case "sheets": {
       const missing = Object.values(p.sheets2d || {}).flatMap((r) => Object.values(r.views).filter((c) => !c.url).map((c) => `${r.th}-${c.th}`));
@@ -1304,7 +1318,7 @@ function renderSteps() {
     const det = document.createElement("details");
     det.dataset.id = s.id;
     det.open = open.has(s.id) || !!s.next || s.id === "upload" || (s.id === "export" && !!project.renders?.sprite);
-    det.innerHTML = `<summary><span class="num">${s.done ? "✓" : i + 1}</span><span>${esc(s.title)}</span><span class="where ${s.where}">${WHERE[s.where]}</span>
+    det.innerHTML = `<summary><span class="num" title="${s.done ? esc(t("Done")) : ""}">${i + 1}</span><span>${esc(s.title)}</span><span class="where ${s.where}">${WHERE[s.where]}</span>
         ${s.detail ? `<span class="detail">${esc(s.detail)}</span>` : ""}</summary><div class="body">${stepBody(s)}</div>`;
     li.appendChild(det);
     return li;

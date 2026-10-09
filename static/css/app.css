@@ -574,3 +574,19 @@ textarea { background: var(--input-bg); color: var(--text); border: 1px solid va
 .ask-dialog .btn-row { justify-content: flex-end; }
 .g-char { min-width: 0; }
 .g-char span { max-width: 100%; overflow-wrap: anywhere; }
+
+/* ───── Big step numbers: do the cards in this order ───── */
+.step-no { display: inline-grid; place-items: center; flex: none; width: 34px; height: 34px; border-radius: 50%;
+  font-size: 19px; font-weight: 800; line-height: 1; background: #2a3142; color: #c2cad8; margin-right: 4px; }
+.step-no.next { background: var(--accent); color: #fff; box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 30%, transparent); }
+.step-no.done { background: color-mix(in srgb, #3fb950 30%, transparent); color: #7ee09a; }
+.step-no.big-one { width: 28px; height: 28px; font-size: 16px; background: var(--accent); color: #fff; vertical-align: middle; }
+#pipeSteps .num { min-width: 28px; height: 28px; font-size: 15px; font-weight: 800; flex: none; }
+#pipeSteps .step.done .num { background: color-mix(in srgb, #3fb950 30%, transparent); color: #7ee09a; }
+.view-drop { cursor: pointer; }
+.view-drop .drop-here { color: var(--accent); }
+.view-slot.empty:has(.view-drop.drag) { outline: 2px solid var(--accent); }
+.views-drop { display: block; margin-top: 10px; padding: 14px; font-size: 13px; border-color: var(--accent); }
+#pipeSteps .step summary { grid-template-columns: 30px 1fr auto; }
+#pipeSteps .step .num { width: 28px; }
+#pipeSteps .step.next .num { background: var(--accent); color: #fff; }

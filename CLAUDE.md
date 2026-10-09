@@ -103,10 +103,12 @@ parts). The art review is the human-eye part, done by an AI assistant in chat (C
 
 ## Workflow rule
 
-Character images enter at **step 1 only** (a single image or a turnaround sheet, which is split into
-views automatically). The exceptions: AI-drawn action images are dropped in the sheets card, right
-under the prompt that asked for them, and weapon images in the weapons card. Each kind of image has
-exactly one drop zone; don't add duplicates. Every later step consumes what earlier steps produced.
+Each kind of image is dropped at its own step, never at an earlier one: a new character (a single image
+or a turnaround sheet, split into views automatically) in the step-1 box on the left; more views of the
+same character at step 3 (the views card, or step 3 in the right panel); AI-drawn action images in the
+sheets card (step 4), right under the prompt that asked for them; weapon / headgear images in their
+cards; a replacement concept with "Replace the concept image" in the character card. Every card that is
+a step shows its number big (`.step-no`). Every later step consumes what earlier steps produced.
 When the model is confirmed and already rigged and animated, the render starts on its own.
 
 ## Languages and the user guide
