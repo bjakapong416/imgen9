@@ -21,7 +21,7 @@ body:
     attributes:
       label: Version
       description: Shown next to ImGen9 in the top-left corner of the app.
-      placeholder: e.g. v0.1.2
+      placeholder: e.g. v0.1.3
   - type: dropdown
     id: os
     attributes:
