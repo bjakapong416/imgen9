@@ -596,3 +596,7 @@ textarea { background: var(--input-bg); color: var(--text); border: 1px solid va
   color: #fff; background: #5865f2; text-decoration: none; }
 .community-btn:hover { filter: brightness(1.12); }
 .community-btn + .conn-btn { margin-left: 0; }
+
+.app-version { margin-left: 6px; font-size: 11px; font-weight: 600; color: var(--muted); text-decoration: none;
+  padding: 1px 6px; border: 1px solid #2a3142; border-radius: 999px; }
+.app-version:hover { color: var(--text); border-color: var(--accent); }

@@ -122,6 +122,12 @@ $("connRefresh").addEventListener("click", async () => {
 });
 $("connDialog").addEventListener("click", (e) => { if (e.target === $("connDialog")) $("connDialog").close(); });
 
+// The running version, next to the name (shown in bug reports; newer versions are on the Releases page).
+fetch("/api/version").then((r) => r.json()).then((v) => {
+  $("appVersion").textContent = `v${v.version}`;
+  $("appVersion").href = v.releases;
+}).catch(() => { /* older server: no version */ });
+
 load().then(() => {
   let seen = false;
   try { seen = !!localStorage.getItem("conn:seen"); } catch { seen = true; }

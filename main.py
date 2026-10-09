@@ -20,6 +20,7 @@ from core import connections, i18n
 from core.i18n import _
 from core.characters import CharacterError, CharacterLibrary
 from core.config import settings
+from core.version import RELEASES_URL, VERSION
 from core.classify import claude_available
 from core.image_processing import ImageProcessingError, get_rembg_session
 from core.projects import ProjectError, ProjectStore, find_blender
@@ -38,7 +39,7 @@ async def lifespan(_: FastAPI):
     yield
 
 
-app = FastAPI(title="ImGen9", version="0.1.0", lifespan=lifespan)
+app = FastAPI(title="ImGen9", version=VERSION, lifespan=lifespan)
 
 
 @app.middleware("http")
@@ -110,7 +111,13 @@ async def group_style_image(gid: str) -> FileResponse:
 
 @app.get("/health")
 async def health() -> dict:
-    return {"status": "ok", "rembg_model": settings.rembg_model}
+    return {"status": "ok", "version": VERSION, "rembg_model": settings.rembg_model}
+
+
+@app.get("/api/version")
+async def version() -> dict:
+    """The running version and where to get newer ones (the app itself never checks online)."""
+    return {"version": VERSION, "releases": RELEASES_URL}
 
 
 async def _read_limited(file: UploadFile, limit: int) -> bytes:

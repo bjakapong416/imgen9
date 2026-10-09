@@ -19,8 +19,9 @@ body:
   - type: input
     id: version
     attributes:
-      label: Version / commit
-      placeholder: e.g. v0.1.0 or the commit hash
+      label: Version
+      description: Shown next to ImGen9 in the top-left corner of the app.
+      placeholder: e.g. v0.1.2
   - type: dropdown
     id: os
     attributes:

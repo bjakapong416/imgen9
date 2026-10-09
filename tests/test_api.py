@@ -167,3 +167,10 @@ def test_project_lang_cookie(api):
 
         shutil.rmtree(d)
 
+
+
+def test_version_is_reported(api):
+    from core.version import VERSION
+    client, _, _ = api
+    assert client.get("/api/version").json()["version"] == VERSION
+    assert client.get("/health").json()["version"] == VERSION

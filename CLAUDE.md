@@ -131,6 +131,12 @@ The 2D route has five steps: upload → character info + English description →
 a step, and cards for features that don't exist yet stay hidden on the 2D route. The character
 description can always be typed by hand; Claude (in chat or by API key) is optional.
 
+## Releases
+
+`core/version.py` holds the version (shown next to the name in the top bar and in `/api/version`). To
+release: bump it, push to `main`, wait for CI to pass on every OS, then create the GitHub release
+`v<VERSION>` with notes. Never rewrite `main`'s history: the repo is public.
+
 ## Running
 
 - Server: `python -m uvicorn main:app --port 8000` from the project's virtualenv. Restart after
