@@ -1,7 +1,7 @@
 # Contributing
 
 Thanks for helping. Bug reports, ideas and pull requests are welcome.
-Come and talk first on [Discord](https://discord.gg/av4u5drrB) if you want to pick something up or aren't sure where to start.
+Come and talk first on [Discord](https://discord.gg/NwuzX3aZkP) if you want to pick something up or aren't sure where to start.
 
 ## Before you open a pull request
 
