@@ -1,0 +1,28 @@
+# Posts each new GitHub release to the Discord #announcements channel.
+# Needs the repo secret DISCORD_WEBHOOK (the channel's webhook URL); without it the job does nothing.
+name: Announce release on Discord
+
+on:
+  release:
+    types: [published]
+
+permissions: {}
+
+jobs:
+  announce:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Post to Discord
+        env:
+          WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          NAME: ${{ github.event.release.name || github.event.release.tag_name }}
+          URL: ${{ github.event.release.html_url }}
+          BODY: ${{ github.event.release.body }}
+        run: |
+          if [ -z "$WEBHOOK" ]; then echo "DISCORD_WEBHOOK is not set; skipping."; exit 0; fi
+          notes=$(printf '%s' "$BODY" | head -c 1500)
+          payload=$(jq -n --arg n "$NAME" --arg u "$URL" --arg b "$notes" \
+            '{username: "ImGen9", allowed_mentions: {parse: []},
+              content: ("🎉 **" + $n + "** is out! / ออกแล้ว!\n" + $u),
+              embeds: [{title: $n, url: $u, description: $b, color: 8036095}]}')
+          curl -fsS -H "Content-Type: application/json" -d "$payload" "$WEBHOOK"
