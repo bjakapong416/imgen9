@@ -3,10 +3,16 @@
 from __future__ import annotations
 
 import os
+import tempfile
 from dataclasses import dataclass
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# numba (pulled in by rembg -> pymatting) caches compiled code next to the package by default; inside a
+# deep .venv on Windows that path passes the 260-character limit and importing rembg fails. The system
+# temp folder keeps it short wherever the project was cloned.
+os.environ.setdefault("NUMBA_CACHE_DIR", str(Path(tempfile.gettempdir()) / "imgen9-numba"))
 
 
 def _env_int(name: str, default: int) -> int:

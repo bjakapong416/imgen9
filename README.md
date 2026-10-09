@@ -2,6 +2,7 @@
 
 **Character & monster sprite maker for 2D games.**
 
+![One concept image becomes an 8-direction walking sprite](docs/images/orc_walk_8dir.gif)
 
 Turn one character image into a game-ready, 8-direction 2D sprite: idle, walk, attack, hurt and
 die, with an optional swappable weapon layer. You run it on your own PC. It writes a texture atlas +
@@ -11,6 +12,15 @@ JSON for web games (PixiJS / Phaser) and `.spr` / `.act` files.
 > the top bar), and a built-in **📖 Guide** tab walks you through every step.
 
 ## How it works
+
+| Pipeline: one card per step | The AI-drawn poses, checked row by row |
+|---|---|
+| ![Pipeline page](docs/images/pipeline.jpg) | ![Poses card with automatic checks](docs/images/poses.jpg) |
+| **Playtest:** walk with WASD, attack a dummy | **🔌 Connections:** what you need, and what you don't |
+| ![Playtest](docs/images/playtest.jpg) | ![Connections](docs/images/connections.jpg) |
+
+<sub>The orc was made with ImGen9 from the maintainer's own concept image; it is not part of the tool.
+See the attack too: [orc_attack_8dir.gif](docs/images/orc_attack_8dir.gif).</sub>
 
 The tool doesn't draw. Your own image AI (Gemini, ChatGPT, ...) does the drawing, from prompts the
 tool writes. The tool does the tedious parts around it:
