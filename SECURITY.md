@@ -1,7 +1,9 @@
 # Security
 
-ImGen9 runs on your own PC and listens on `127.0.0.1` only. It has no accounts and never sends your
-images, projects or API keys anywhere.
+ImGen9 runs on your own PC and listens on `127.0.0.1` only. It has no accounts. Your images and projects
+stay on your PC, except when you turn on an online service yourself: with your own `ANTHROPIC_API_KEY`,
+the character-info step sends the concept image to the Claude API. API keys are only sent to their own
+service.
 
 ## Reporting a vulnerability
 

@@ -112,9 +112,9 @@ each action frame by frame (layers, origin, anchors, events) with single-frame, 
 ## Your images and your sprites
 
 - Use images you made yourself or have the rights to. Don't use screenshots of other people's art.
-- You own what you put in and what you get out. Images made with an AI are also subject to that
-  service's terms, so check them before you sell assets. Some stores (such as itch.io) ask you to
-  disclose AI use.
+- ImGen9 claims no rights in your images or in the sprites you make. Whether AI-made images can be
+  owned or protected depends on your country's law and on the AI service's terms, so check both
+  before you sell assets. Some stores (such as itch.io) ask you to disclose AI use.
 - The tool's prompts describe a look in plain words and never name other games or artists. Keep it
   that way when you edit them.
 
@@ -191,6 +191,7 @@ Copyright © the project maintainer.
 - Code: [GNU AGPL-3.0-or-later](LICENSE).
 - The Blender scripts in `blender/`: [GPL-3.0-or-later](blender/LICENSE).
 - Dependencies and models: [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md).
+- ImGen9 is provided as is, without any warranty (see sections 15 and 16 of the [LICENSE](LICENSE)).
 
 The `.spr`/`.act` sprite format is supported for compatibility only. This project includes no files
 from any game and is not affiliated with any game publisher.
