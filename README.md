@@ -165,6 +165,8 @@ More detail (both in Thai): [docs/ONE_IMAGE_TO_GAME.md](docs/ONE_IMAGE_TO_GAME.m
   you'd like to build.
 - **Bugs:** open an [issue](https://github.com/bjakapong416/imgen9/issues/new/choose) (there's a form).
 - **Ideas and show & tell:** [Discussions](https://github.com/bjakapong416/imgen9/discussions).
+- **Security problems:** please report them privately, see [SECURITY.md](SECURITY.md).
+- Be kind: [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
 
 ## Contributing
 

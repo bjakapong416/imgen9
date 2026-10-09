@@ -3,7 +3,7 @@ services:
     build: .
     image: imgen9
     ports:
-      - "8000:8000"
+      - "127.0.0.1:8000:8000"          # this PC only (see SECURITY.md)
     environment:
       REMBG_MODEL: isnet-general-use   # or u2net / isnet-anime / u2netp
       MAX_UPLOAD_MB: "25"
