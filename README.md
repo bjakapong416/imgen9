@@ -2,6 +2,10 @@
 
 **Character & monster sprite maker for 2D games.**
 
+[![Discord](https://img.shields.io/badge/Discord-join%20the%20community-5865F2?logo=discord&logoColor=white)](https://discord.gg/av4u5drrB)
+[![CI](https://github.com/bjakapong416/imgen9/actions/workflows/ci.yml/badge.svg)](https://github.com/bjakapong416/imgen9/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/bjakapong416/imgen9)](https://github.com/bjakapong416/imgen9/releases/latest)
+
 ![One concept image becomes an 8-direction walking sprite](docs/images/orc_walk_8dir.gif)
 
 Turn one character image into a game-ready, 8-direction 2D sprite: idle, walk, attack, hurt and
@@ -155,9 +159,17 @@ tools/ai_tasks.py           classify + art-review helper for AI assistants (Clau
 More detail (both in Thai): [docs/ONE_IMAGE_TO_GAME.md](docs/ONE_IMAGE_TO_GAME.md) and
 [docs/PIPELINE.md](docs/PIPELINE.md) (the optional 3D route).
 
+## Community and help
+
+- **💬 Discord:** [discord.gg/av4u5drrB](https://discord.gg/av4u5drrB) — ask questions, report a problem, show your characters, or say what
+  you'd like to build.
+- **Bugs:** open an [issue](https://github.com/bjakapong416/imgen9/issues/new/choose) (there's a form).
+- **Ideas and show & tell:** [Discussions](https://github.com/bjakapong416/imgen9/discussions).
+
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md). Contributions need the Contributor License Agreement in it.
+See [CONTRIBUTING.md](CONTRIBUTING.md). Contributions need the Contributor License Agreement in it. Not sure where
+to start? Ask on [Discord](https://discord.gg/av4u5drrB).
 
 ## Licence
 

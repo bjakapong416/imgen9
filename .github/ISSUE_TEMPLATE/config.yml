@@ -1,5 +1,8 @@
 blank_issues_enabled: false
 contact_links:
+  - name: Chat on Discord
+    url: https://discord.gg/av4u5drrB
+    about: Quick questions, help getting it running, and talking with other users and contributors.
   - name: Questions and show & tell
     url: https://github.com/bjakapong416/imgen9/discussions
     about: Ask how to do something, or share the characters you made.

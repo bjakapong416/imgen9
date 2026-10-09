@@ -590,3 +590,9 @@ textarea { background: var(--input-bg); color: var(--text); border: 1px solid va
 #pipeSteps .step summary { grid-template-columns: 30px 1fr auto; }
 #pipeSteps .step .num { width: 28px; }
 #pipeSteps .step.next .num { background: var(--accent); color: #fff; }
+
+/* Community link in the top bar */
+.community-btn { margin-left: auto; margin-right: 8px; padding: 5px 12px; border-radius: 999px; font-weight: 600; font-size: 13px;
+  color: #fff; background: #5865f2; text-decoration: none; }
+.community-btn:hover { filter: brightness(1.12); }
+.community-btn + .conn-btn { margin-left: 0; }
