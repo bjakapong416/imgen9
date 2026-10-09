@@ -78,10 +78,12 @@ def find_blender() -> str | None:
     env = os.getenv("BLENDER_PATH")
     if env and Path(env).exists():
         return env
-    hits = sorted(glob.glob("C:/Program Files/Blender Foundation/Blender */blender.exe"))
+    hits = sorted(glob.glob("C:/Program Files/Blender Foundation/Blender */blender.exe"))   # Windows
+    hits += [m for m in ("/Applications/Blender.app/Contents/MacOS/Blender",                 # macOS
+                         str(Path.home() / "Applications/Blender.app/Contents/MacOS/Blender")) if Path(m).exists()]
     if hits:
         return hits[-1]
-    return shutil.which("blender")
+    return shutil.which("blender")                                                         # Linux / PATH
 
 
 class ProjectStore:

@@ -56,6 +56,6 @@ python -m tools.i18n_check     # every UI string has a Thai translation
 The tests build their inputs with Pillow (synthetic figures and sheets) and point the server at
 temporary folders, so they need no network, no image AI and no game files. They never run background
 removal: `rembg` is blocked in `tests/conftest.py`, so a test that reaches it fails instead of
-downloading a model. CI (`.github/workflows/ci.yml`) runs the same commands on Python 3.11, 3.12 and 3.13
+downloading a model. CI (`.github/workflows/ci.yml`) runs the same commands on Python 3.11, 3.12 and 3.13 (Linux), plus 3.12 on macOS and Windows,
 and syntax-checks every file in `static/js` with `node --check`. A test marked `xfail` documents a
 known bug; the marks are strict, so once the bug is fixed the test fails as XPASS until you remove the mark.

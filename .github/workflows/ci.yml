@@ -9,15 +9,21 @@ permissions:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
+        os: [ubuntu-latest]
         python-version: ["3.11", "3.12", "3.13"]
+        include:                       # people run it on their own Mac or Windows PC
+          - os: macos-latest           # Apple silicon
+            python-version: "3.12"
+          - os: windows-latest
+            python-version: "3.12"
     env:
       # The tests never run background removal; this keeps rembg from fetching a model if anything tried.
       PRELOAD_MODEL: "0"
-      U2NET_HOME: /tmp/no-rembg-models
+      U2NET_HOME: ${{ github.workspace }}/.no-rembg-models
     steps:
       - uses: actions/checkout@v4
 
@@ -39,6 +45,16 @@ jobs:
 
       - name: Translations complete
         run: python -m tools.i18n_check
+
+      - name: Background removal library loads (no model download)
+        run: python -c "import core.config; from rembg import new_session; print('rembg ok')"
+
+      - name: run.sh and run.command are valid and executable (macOS / Linux)
+        if: runner.os != 'Windows'
+        shell: bash
+        run: |
+          sh -n run.sh && sh -n run.command
+          test -x run.sh && test -x run.command
 
   js:
     runs-on: ubuntu-latest

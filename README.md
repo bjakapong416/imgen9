@@ -57,7 +57,14 @@ cd imgen9
 ```
 
 - **Windows:** double-click `run.bat`.
-- **macOS / Linux:** `sh run.sh`
+- **macOS:** double-click `run.command` in Finder (the first time, if macOS refuses to open it: right-click → Open),
+  or run `sh run.sh` in Terminal. The `python3` that comes with macOS is usually too old: install Python 3.12 from
+  [python.org](https://www.python.org/downloads/macos/) or with Homebrew (`brew install python@3.12`). `run.sh`
+  finds it by itself. Apple silicon and Intel Macs both work.
+- **Linux:** `sh run.sh` (install `python3.12` and `python3.12-venv` first if your distribution doesn't have them).
+
+No git? Download the zip from the [latest release](https://github.com/bjakapong416/imgen9/releases/latest),
+unzip it and start it the same way.
 
 The first run creates `.venv` and installs the packages (a few minutes). Then it opens
 <http://127.0.0.1:8000>. The first background removal downloads a ~180 MB model once (to

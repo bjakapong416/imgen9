@@ -67,5 +67,6 @@ settings = Settings(
     # Optional local image-to-3D (Hunyuan3D-2mv), installed separately by the user under its own
     # licence (Tencent Hunyuan Community License). Off by default: results were not good enough.
     auto_local_3d=_env_bool("AUTO_LOCAL_3D", False),
-    hunyuan_python=Path(os.getenv("HUNYUAN_PYTHON", BASE_DIR.parent / "tools" / "Hunyuan3D-2" / ".venv" / "Scripts" / "python.exe")),
+    hunyuan_python=Path(os.getenv("HUNYUAN_PYTHON", BASE_DIR.parent / "tools" / "Hunyuan3D-2" / ".venv"
+                                  / ("Scripts/python.exe" if os.name == "nt" else "bin/python"))),
 )
