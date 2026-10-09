@@ -20,10 +20,33 @@
       <button data-page="lab" role="tab">🎮 Playtest</button>
       <button data-page="docs" role="tab" data-i18n>📖 Guide</button>
     </nav>
+    <button class="support-btn" id="supportBtn" type="button">❤ <span data-i18n>Support</span></button>
     <a class="community-btn" href="https://discord.gg/NwuzX3aZkP" target="_blank" rel="noopener" data-i18n-title="Questions, problems or ideas: talk with us on Discord" title="Questions, problems or ideas: talk with us on Discord">💬 Discord</a>
     <button id="connBtn" class="conn-btn" type="button"><span class="conn-dot"></span><span data-i18n>🔌 Connections</span></button>
     <select id="langSel" class="lang-select" title="Language / ภาษา" aria-label="Language"></select>
   </header>
+
+  <!-- ❤ Support: how to support the project (PromptPay QR for Thai banks) -->
+  <dialog id="supportDialog" class="support-dialog">
+    <div class="conn-top">
+      <h2>❤ <span data-i18n>Support ImGen9</span></h2>
+      <button class="btn small" id="supportClose" type="button" aria-label="Close">✕</button>
+    </div>
+    <div class="support-body">
+      <p data-i18n>ImGen9 is free and open source. If it saves you time, you can support its development: every bit helps keep it going.</p>
+      <div class="support-qr">
+        <img src="/static/img/support-promptpay.jpg" alt="PromptPay QR" width="280" />
+        <div>
+          <b data-i18n>Thai PromptPay</b>
+          <p class="hint" data-i18n>Scan with any Thai banking app and choose the amount yourself.</p>
+          <p class="hint" data-i18n>Outside Thailand: an international option is coming. Until then, starring the repo and telling friends helps too.</p>
+          <p><a class="btn small" href="https://github.com/bjakapong416/imgen9" target="_blank" rel="noopener">⭐ <span data-i18n>Star on GitHub</span></a>
+             <a class="btn small" href="https://discord.gg/NwuzX3aZkP" target="_blank" rel="noopener">💬 Discord</a></p>
+        </div>
+      </div>
+      <p class="hint" data-i18n>Support is a thank-you for the work so far: it doesn't buy features or priority support.</p>
+    </div>
+  </dialog>
 
   <!-- 🔌 Connections: AI tools found on this PC (checked locally) + the image AI the user draws with -->
   <dialog id="connDialog" class="conn-dialog">

@@ -600,3 +600,17 @@ textarea { background: var(--input-bg); color: var(--text); border: 1px solid va
 .app-version { margin-left: 6px; font-size: 11px; font-weight: 600; color: var(--muted); text-decoration: none;
   padding: 1px 6px; border: 1px solid #2a3142; border-radius: 999px; }
 .app-version:hover { color: var(--text); border-color: var(--accent); }
+
+/* ❤ Support */
+.support-btn { margin-left: auto; margin-right: 8px; padding: 5px 12px; border-radius: 999px; font-weight: 600; font-size: 13px;
+  color: #fff; background: #e5487a; border: 0; cursor: pointer; }
+.support-btn:hover { filter: brightness(1.12); }
+.support-btn + .community-btn { margin-left: 0; }
+.support-dialog { width: min(640px, calc(100vw - 32px)); border: 1px solid #2a3142; border-radius: 14px; background: var(--bg, #11141b);
+  color: var(--text); padding: 0; }
+.support-dialog::backdrop { background: rgba(5, 8, 14, 0.65); }
+.support-body { padding: 14px 18px 18px; font-size: 14px; }
+.support-qr { display: flex; gap: 18px; align-items: flex-start; flex-wrap: wrap; margin: 10px 0; }
+.support-qr img { width: 240px; height: auto; border-radius: 10px; background: #fff; }
+.support-qr > div { flex: 1; min-width: 200px; }
+.support-dialog .conn-top h2 { flex: 1; text-transform: none; letter-spacing: 0; }

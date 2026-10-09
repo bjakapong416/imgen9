@@ -159,6 +159,17 @@ tools/ai_tasks.py           classify + art-review helper for AI assistants (Clau
 More detail (both in Thai): [docs/ONE_IMAGE_TO_GAME.md](docs/ONE_IMAGE_TO_GAME.md) and
 [docs/PIPELINE.md](docs/PIPELINE.md) (the optional 3D route).
 
+## Support ImGen9
+
+ImGen9 is free and open source. If it saves you time, you can support its development (the ❤ Support button in
+the app shows the same):
+
+<img src="static/img/support-promptpay.jpg" alt="PromptPay QR for supporting ImGen9" width="220" />
+
+**Thai PromptPay:** scan with any Thai banking app and choose the amount. Outside Thailand: an international
+option is coming; until then a ⭐ star and telling other game makers helps a lot.
+Support is a thank-you for the work so far: it doesn't buy features or priority support.
+
 ## Community and help
 
 - **💬 Discord:** [discord.gg/NwuzX3aZkP](https://discord.gg/NwuzX3aZkP) — ask questions, report a problem, show your characters, or say what

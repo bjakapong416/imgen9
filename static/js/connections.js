@@ -115,6 +115,10 @@ export async function openConnections() {
 }
 
 $("connBtn").addEventListener("click", openConnections);
+$("supportBtn").title = t("ImGen9 is free: support its development");
+$("supportBtn").addEventListener("click", () => $("supportDialog").showModal());
+$("supportClose").addEventListener("click", () => $("supportDialog").close());
+$("supportDialog").addEventListener("click", (e) => { if (e.target === $("supportDialog")) $("supportDialog").close(); });
 $("connClose").addEventListener("click", () => $("connDialog").close());
 $("connRefresh").addEventListener("click", async () => {
   $("connRefresh").disabled = true;
